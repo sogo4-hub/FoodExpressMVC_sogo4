@@ -1,18 +1,36 @@
 package es.daw.foodexpressmvc.service;
 
 import es.daw.foodexpressmvc.dto.RestaurantDTO;
+import es.daw.foodexpressmvc.exception.ConnectApiException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class RestauranteService {
+    private final WebClient webClientAPI;
+
+
 
     public List<RestaurantDTO> getRestaurants(){
-        //Pendiente de usar WebClient para hacer la peticion de endpoint GET
-        //http://localhost:8080/api/restaurants
-        //Obtendremos un json con la lista de restaurantes
-        //Debemos convertir el json en una lista de RestaurantDTO
-        return null;
+        RestaurantDTO[] restaurantes;
+        try {
+            restaurantes = webClientAPI
+                    .get()
+                    .uri("/restaurants")
+                    .retrieve()//verifica el status. Si 4xx o 5xx, lanza error. Si es 2xx continua
+                    .bodyToMono(RestaurantDTO[].class)
+                    .block();//Bloquea y espera. Sincrono
+        }catch (Exception e){
+            throw new ConnectApiException("Could not connect to foodEspress API", e);
+        }
+        //return List.of(restaurantes);//La diferencia entre List.of y Arrays.asList es que List.of es inmutable
+        return Arrays.asList(restaurantes);
     }
 }
+
