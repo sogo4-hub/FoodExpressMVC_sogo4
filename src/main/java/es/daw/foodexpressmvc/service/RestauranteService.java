@@ -2,6 +2,7 @@ package es.daw.foodexpressmvc.service;
 
 import es.daw.foodexpressmvc.dto.RestaurantDTO;
 import es.daw.foodexpressmvc.exception.ConnectApiException;
+import es.daw.foodexpressmvc.exception.ConnectApiRestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RestauranteService {
     private final WebClient webClientAPI;
+    private final ApiAuthService apiAuthService;
 
 
     public List<RestaurantDTO> getRestaurants(){
@@ -30,6 +32,32 @@ public class RestauranteService {
         }
         //return List.of(restaurantes);//La diferencia entre List.of y Arrays.asList es que List.of es inmutable
         return Arrays.asList(restaurantes);
+    }
+
+    /**
+     * PENDIENTE CREAR ENVIANDO EL TOKEN
+     * @param restaurantDTO
+     * @return
+     */
+    public RestaurantDTO createRestaurant(RestaurantDTO restaurantDTO){
+        //PENDIENTE CREAR ENVIANDO EL TOKEN
+        RestaurantDTO dto;
+        try {
+            dto = webClientAPI
+                    .post()
+                    .uri("/restaurants")
+                    .header("Authorization", "Bearer " + apiAuthService.getToken())
+                    .bodyValue(restaurantDTO)
+                    .retrieve()//verifica el status. Si 4xx o 5xx, lanza error. Si es 2xx continua
+                    .bodyToMono(RestaurantDTO.class)
+                    .block();//Bloquea y espera. Sincrono
+        }catch (Exception e){
+//            throw new ConnectApiException("Could not connect to foodEspress API", e);
+            throw new ConnectApiRestException(e.getMessage());
+        }
+        //return List.of(restaurantes);//La diferencia entre List.of y Arrays.asList es que List.of es inmutable
+        //Pendiente usar Optional
+        return dto;
     }
 }
 

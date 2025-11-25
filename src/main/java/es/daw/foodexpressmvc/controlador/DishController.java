@@ -1,9 +1,7 @@
 package es.daw.foodexpressmvc.controlador;
 
 import es.daw.foodexpressmvc.dto.DishDTO;
-import es.daw.foodexpressmvc.dto.RestaurantDTO;
 import es.daw.foodexpressmvc.service.DishService;
-import es.daw.foodexpressmvc.service.RestauranteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +18,6 @@ public class DishController {
     public String listDishes(Model model){
         List<DishDTO> dishes = dishService.getDishes();
         model.addAttribute("dishes", dishes);
-        return "dishes";
+        return "/dishes/dishes";
     }
 }

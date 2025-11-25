@@ -10,4 +10,9 @@ public class GlobalExceptionHandler {
         model.addAttribute("errorMessage", e.getMessage());
         return "api-error";
     }
+    @ExceptionHandler(ConnectApiRestException.class)
+    public String handleConnectApiRestException(ConnectApiRestException e, Model model){
+        model.addAttribute("errorMessage", e.getMessage());
+        return "api-error";
+    }
 }
