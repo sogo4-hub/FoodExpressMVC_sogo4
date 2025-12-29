@@ -10,12 +10,14 @@
 
 <div class="container mt-5">
 
-    <h2 class="mb-4">Create New Restaurant</h2>
+    <h2 class="mb-4" th:text="${restaurant.id} == null ? 'Create Restaurant' : 'Edit Restaurant'"></h2>
 
     <!-- Show error -->
     <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
 
-    <form th:action="@{/restaurants/create}" th:object="${restaurant}" method="post"
+    <form th:action="${restaurant.id} == null ? '/restaurants/create' : '/restaurants/update/'+${restaurant.id}"
+          th:object="${restaurant}"
+          th:method="post"
           class="card p-4 shadow">
 
         <div class="mb-3">
@@ -33,7 +35,11 @@
             <input th:field="*{phone}" class="form-control">
         </div>
 
-        <button class="btn btn-primary">Create</button>
+        <div class="text-danger"
+        th:if="${#fields.hasErrors('phone')}"
+        th:errors="*{phone}"></div>
+
+        <button class="btn btn-primary" th:text="${restaurant.id} == null ? 'Create' : 'Update'"></button>
         <a th:href="@{/dashboard}" class="btn btn-secondary ms-2">Cancel</a>
 
     </form>
