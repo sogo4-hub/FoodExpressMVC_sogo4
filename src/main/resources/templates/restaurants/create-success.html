@@ -12,6 +12,11 @@
 
     <h2 class="text-success fw-bold mb-3">Restaurant Created Successfully!</h2>
 
+    <div th:if="${success}" class="card p-3 mb-4 mx-auto" style="max-width: 400px;">
+        <p><strong>Nombre:</strong> <span th:text="${restaurant.name}"></span></p>
+        <p><strong>Dirección:</strong> <span th:text="${restaurant.address}"></span></p>
+    </div>
+
     <a th:href="@{/restaurants}" class="btn btn-primary">View Restaurants</a>
     <a th:href="@{/dashboard}" class="btn btn-secondary ms-2">Back to Dashboard</a>
 

@@ -2,48 +2,45 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Create Restaurant</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <title th:text="${mode == 'create' ? 'Create Restaurant' : 'Edit Restaurant'}"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
 
 <div class="container mt-5">
 
-    <h2 class="mb-4" th:text="${restaurant.id} == null ? 'Create Restaurant' : 'Edit Restaurant'"></h2>
+    <h2 class="mb-4" th:text="${mode == 'create'} ? 'Create Restaurant' : 'Edit Restaurant'"></h2>
 
-    <!-- Show error -->
-    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
-
-    <form th:action="${restaurant.id} == null ? '/restaurants/create' : '/restaurants/update/'+${restaurant.id}"
+    <form th:action="@{${mode == 'create' ? '/restaurants/create' : '/restaurants/update/' + restaurant.id}}"
           th:object="${restaurant}"
-          th:method="post"
+          method="post"
           class="card p-4 shadow">
 
         <div class="mb-3">
             <label class="form-label">Name</label>
             <input th:field="*{name}" class="form-control" required>
+            <div th:replace="~{fragments/form-errors :: error(field='name')}"></div>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Address</label>
             <input th:field="*{address}" class="form-control">
+            <div th:replace="~{fragments/form-errors :: error(field='address')}"></div>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Phone</label>
             <input th:field="*{phone}" class="form-control">
+            <div th:replace="~{fragments/form-errors :: error(field='phone')}"></div>
         </div>
 
-        <div class="text-danger"
-        th:if="${#fields.hasErrors('phone')}"
-        th:errors="*{phone}"></div>
+        <input type="hidden" th:if="${mode == 'update'}" th:field="*{id}"/>
 
-        <button class="btn btn-primary" th:text="${restaurant.id} == null ? 'Create' : 'Update'"></button>
-        <a th:href="@{/dashboard}" class="btn btn-secondary ms-2">Cancel</a>
-
+        <div class="mt-3">
+            <button class="btn btn-primary" th:text="${mode == 'create'} ? 'Create' : 'Update'"></button>
+            <a th:href="@{/dashboard}" class="btn btn-secondary ms-2">Cancel</a>
+        </div>
     </form>
-
 </div>
 </body>
 </html>
