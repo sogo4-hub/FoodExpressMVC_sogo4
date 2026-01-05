@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import java.security.Principal;
 import java.util.List;
 import es.daw.foodexpressmvc.dto.PageResponse;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,11 +22,13 @@ public class DishController {
     public String listDishes(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
-            Model model) {
-
+            Model model,
+            Principal principal) {
+        if (principal != null) {
+            model.addAttribute("username", principal.getName());
+        }
         // Llamamos al servicio paginado
         PageResponse<DishDTO> dishPage = dishService.getDishes(page, size);
-
         // Pasamos al modelo la página completa (para la navegación)
         model.addAttribute("page", dishPage);
         // Y la lista de platos (para la tabla)
