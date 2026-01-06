@@ -49,15 +49,32 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="dish : ${dishes}">
-                    <td th:text="${dish.name}">Pizza</td>
-                    <td th:text="${dish.price} + ' €'">10.0 €</td>
-                    <td th:text="${dish.category}">Italian</td>
-                    <td th:text="${dish.restaurantName}">Mario's</td>
-                </tr>
+                <tr th:each="dish : ${dishes}" class="align-middle"> <td th:text="${dish.name}" class="fw-bold">Fetuccine Alfredo</td>
+                    <td th:text="${dish.category}">Pasta</td>
+                    <td th:text="${dish.price} + ' €'">10.75 €</td>
 
-                <tr th:if="${#lists.isEmpty(dishes)}">
-                    <td colspan="4" class="text-center py-3">No dishes found.</td>
+                    <td class="p-2">
+                        <div class="card bg-light border-0">
+                            <div class="card-body p-0">
+                                <table class="table table-sm table-borderless mb-0" style="font-size: 0.85rem;">
+                                    <thead class="table-secondary">
+                                    <tr>
+                                        <th class="py-1 px-2">Restaurant Name</th>
+                                        <th class="py-1 px-2">Address</th>
+                                        <th class="py-1 px-2">Phone</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td class="px-2 py-1" th:text="${dish.restaurantName}">Pasta Nova</td>
+                                        <td class="px-2 py-1" th:text="${dish.restaurantAddress}">Av. Italia 12</td>
+                                        <td class="px-2 py-1" th:text="${dish.restaurantPhone}">600222333</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
                 </tbody>
             </table>

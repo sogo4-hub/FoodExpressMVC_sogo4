@@ -28,6 +28,8 @@ public class OrderController {
             @RequestParam(required = false) String status,
             @RequestParam(required = false) Long userId,
             @RequestParam(required = false) Long restaurantId,
+            @RequestParam(defaultValue = "id") String sortBy,     // Nuevo
+            @RequestParam(defaultValue = "ASC") String direction, // Nuevo
             Model model, Principal principal) {
 
         try {
@@ -41,8 +43,12 @@ public class OrderController {
             model.addAttribute("allRestaurants", restauranteService.getRestaurants());
 
             // 2. Obtener pedidos filtrados
-            List<OrderDTO> orders = orderService.getFilteredOrders(status, userId, restaurantId);
+            List<OrderDTO> orders = orderService.getFilteredOrders(status, userId, restaurantId, sortBy, direction);
             model.addAttribute("orders", orders);
+
+            //Pasamos la configuración actual a la vista para mantener el estado de los botones
+            model.addAttribute("currentSortBy", sortBy);
+            model.addAttribute("currentDirection", direction);
 
             return "orders-list";
         } catch (ConnectApiRestException e) {

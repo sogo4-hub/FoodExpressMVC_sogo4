@@ -30,11 +30,10 @@
 
     <div class="card shadow-sm mb-4">
         <div class="card-header bg-white">
-            <h5 class="mb-0">Filter Orders</h5>
+            <h5 class="mb-0">Filter Orders V2</h5>
         </div>
         <div class="card-body">
             <form th:action="@{/orders}" method="get" class="row g-3">
-
                 <div class="col-md-4">
                     <label for="status" class="form-label">Status</label>
                     <select name="status" id="status" class="form-select">
@@ -76,16 +75,65 @@
             <table class="table table-striped table-hover mb-0">
                 <thead class="table-dark">
                 <tr>
-                    <th>ID</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>User</th>
-                    <th>Restaurant</th>
+                    <th scope="col" class="align-middle">
+                        <div class="d-flex align-items-center">
+                            <div class="d-flex gap-1 me-2">
+                                <a th:href="@{/orders(status=${param.status}, userId=${param.userId}, restaurantId=${param.restaurantId}, sortBy='orderDate', direction='ASC')}"
+                                   class="text-decoration-none"
+                                   th:style="${currentSortBy == 'orderDate' && currentDirection == 'ASC'} ? 'color: #ffc107;' : 'color: #adb5bd;'">▼</a>
+                                <a th:href="@{/orders(status=${param.status}, userId=${param.userId}, restaurantId=${param.restaurantId}, sortBy='orderDate', direction='DESC')}"
+                                   class="text-decoration-none"
+                                   th:style="${currentSortBy == 'orderDate' && currentDirection == 'DESC'} ? 'color: #ffc107;' : 'color: #adb5bd;'">▲</a>
+                            </div>
+                            <span>Date</span>
+                        </div>
+                    </th>
+
+                    <th scope="col" class="align-middle">
+                        <div class="d-flex align-items-center">
+                            <div class="d-flex gap-1 me-2">
+                                <a th:href="@{/orders(status=${param.status}, userId=${param.userId}, restaurantId=${param.restaurantId}, sortBy='status', direction='ASC')}"
+                                   class="text-decoration-none"
+                                   th:style="${currentSortBy == 'status' && currentDirection == 'ASC'} ? 'color: #ffc107;' : 'color: #adb5bd;'">▼</a>
+                                <a th:href="@{/orders(status=${param.status}, userId=${param.userId}, restaurantId=${param.restaurantId}, sortBy='status', direction='DESC')}"
+                                   class="text-decoration-none"
+                                   th:style="${currentSortBy == 'status' && currentDirection == 'DESC'} ? 'color: #ffc107;' : 'color: #adb5bd;'">▲</a>
+                            </div>
+                            <span>Status</span>
+                        </div>
+                    </th>
+
+                    <th scope="col" class="align-middle">
+                        <div class="d-flex align-items-center">
+                            <div class="d-flex gap-1 me-2">
+                                <a th:href="@{/orders(status=${param.status}, userId=${param.userId}, restaurantId=${param.restaurantId}, sortBy='username', direction='ASC')}"
+                                   class="text-decoration-none"
+                                   th:style="${currentSortBy == 'username' && currentDirection == 'ASC'} ? 'color: #ffc107;' : 'color: #adb5bd;'">▼</a>
+                                <a th:href="@{/orders(status=${param.status}, userId=${param.userId}, restaurantId=${param.restaurantId}, sortBy='username', direction='DESC')}"
+                                   class="text-decoration-none"
+                                   th:style="${currentSortBy == 'username' && currentDirection == 'DESC'} ? 'color: #ffc107;' : 'color: #adb5bd;'">▲</a>
+                            </div>
+                            <span>User</span>
+                        </div>
+                    </th>
+
+                    <th scope="col" class="align-middle">
+                        <div class="d-flex align-items-center">
+                            <div class="d-flex gap-1 me-2">
+                                <a th:href="@{/orders(status=${param.status}, userId=${param.userId}, restaurantId=${param.restaurantId}, sortBy='restaurantName', direction='ASC')}"
+                                   class="text-decoration-none"
+                                   th:style="${currentSortBy == 'restaurantName' && currentDirection == 'ASC'} ? 'color: #ffc107;' : 'color: #adb5bd;'">▼</a>
+                                <a th:href="@{/orders(status=${param.status}, userId=${param.userId}, restaurantId=${param.restaurantId}, sortBy='restaurantName', direction='DESC')}"
+                                   class="text-decoration-none"
+                                   th:style="${currentSortBy == 'restaurantName' && currentDirection == 'DESC'} ? 'color: #ffc107;' : 'color: #adb5bd;'">▲</a>
+                            </div>
+                            <span>Restaurant</span>
+                        </div>
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="order : ${orders}">
-                    <td th:text="${order.id}">1</td>
                     <td th:text="${order.orderDate}">16/06/2025 10:15</td>
                     <td th:text="${order.status}">CREADO</td>
                     <td th:text="${order.username}">juan</td>

@@ -15,13 +15,15 @@ import java.util.List;
 public class OrderService {
     private final WebClient webClientAPI;
 
-    public List<OrderDTO> getFilteredOrders(String status, Long userId, Long restaurantId) {
+    public List<OrderDTO> getFilteredOrders(String status, Long userId, Long restaurantId,String sortBy, String direction) {
         return webClientAPI.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/orders")
                         .queryParam("status", status)
                         .queryParam("userId", userId)
                         .queryParam("restaurantId", restaurantId)
+                        .queryParam("sortBy", sortBy)       // Nuevo
+                        .queryParam("direction", direction) // Nuevo
                         .build())
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, response ->
